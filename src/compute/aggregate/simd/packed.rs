@@ -14,16 +14,16 @@ macro_rules! simd_sum {
     };
 }
 
-simd_sum!(f32x16, f32, sum);
-simd_sum!(f64x8, f64, sum);
-simd_sum!(u8x64, u8, wrapping_sum);
-simd_sum!(u16x32, u16, wrapping_sum);
-simd_sum!(u32x16, u32, wrapping_sum);
-simd_sum!(u64x8, u64, wrapping_sum);
-simd_sum!(i8x64, i8, wrapping_sum);
-simd_sum!(i16x32, i16, wrapping_sum);
-simd_sum!(i32x16, i32, wrapping_sum);
-simd_sum!(i64x8, i64, wrapping_sum);
+simd_sum!(f32x16, f32, horizontal_sum);
+simd_sum!(f64x8, f64, horizontal_sum);
+simd_sum!(u8x64, u8, horizontal_sum);
+simd_sum!(u16x32, u16, horizontal_sum);
+simd_sum!(u32x16, u32, horizontal_sum);
+simd_sum!(u64x8, u64, horizontal_sum);
+simd_sum!(i8x64, i8, horizontal_sum);
+simd_sum!(i16x32, i16, horizontal_sum);
+simd_sum!(i32x16, i32, horizontal_sum);
+simd_sum!(i64x8, i64, horizontal_sum);
 
 macro_rules! simd_ord_int {
     ($simd:tt, $type:ty) => {
@@ -33,22 +33,22 @@ macro_rules! simd_ord_int {
 
             #[inline]
             fn max_element(self) -> $type {
-                self.max_element()
+                self.horizontal_max()
             }
 
             #[inline]
             fn min_element(self) -> $type {
-                self.min_element()
+                self.horizontal_min()
             }
 
             #[inline]
             fn max(self, x: Self) -> Self {
-                self.max(x)
+                std::cmp::Ord::max(self, x)
             }
 
             #[inline]
             fn min(self, x: Self) -> Self {
-                self.min(x)
+                std::cmp::Ord::min(self, x)
             }
 
             #[inline]
@@ -72,12 +72,12 @@ macro_rules! simd_ord_float {
 
             #[inline]
             fn max_element(self) -> $type {
-                self.max_element()
+                self.horizontal_max()
             }
 
             #[inline]
             fn min_element(self) -> $type {
-                self.min_element()
+                self.horizontal_min()
             }
 
             #[inline]
