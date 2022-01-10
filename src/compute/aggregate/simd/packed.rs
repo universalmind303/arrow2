@@ -42,13 +42,13 @@ macro_rules! simd_ord_int {
             }
 
             #[inline]
-            fn max(self, x: Self) -> Self {
-                std::cmp::Ord::max(self, x)
+            fn max_lane(self, x: Self) -> Self {
+                self.max(x)
             }
 
             #[inline]
-            fn min(self, x: Self) -> Self {
-                std::cmp::Ord::min(self, x)
+            fn min_lane(self, x: Self) -> Self {
+                self.min(x)
             }
 
             #[inline]
@@ -81,12 +81,12 @@ macro_rules! simd_ord_float {
             }
 
             #[inline]
-            fn max(self, x: Self) -> Self {
+            fn max_lane(self, x: Self) -> Self {
                 self.max(x)
             }
 
             #[inline]
-            fn min(self, x: Self) -> Self {
+            fn min_lane(self, x: Self) -> Self {
                 self.min(x)
             }
 
