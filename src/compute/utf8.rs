@@ -1,10 +1,18 @@
-//! Defines kernel to extract a upper case of a \[Large\]StringArray
+//! Defines common maps to a [`Utf8Array`]
 
 use crate::{
-    array::Utf8Array,
+    array::{Array, Offset, Utf8Array},
     datatypes::DataType,
     error::{ArrowError, Result},
 };
+
+/// utf8_apply will apply `Fn(&str) -> String` to every value in Utf8Array.
+pub fn utf8_apply<O: Offset, F: Fn(&str) -> String>(f: F, array: &Utf8Array<O>) -> Utf8Array<O> {
+    let iter = array.values_iter().map(f);
+
+    let new = Utf8Array::<O>::from_trusted_len_values_iter(iter);
+    new.with_validity(array.validity().cloned())
+}
 
 /// Returns a new `Array` where each of each of the elements is upper-cased.
 /// this function errors when the passed array is not a \[Large\]String array.
